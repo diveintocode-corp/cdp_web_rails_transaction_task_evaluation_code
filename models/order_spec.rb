@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe "発注機能", type: :model do
+RSpec.describe "Ordering function", type: :model do
   let!(:user1){FactoryBot.create(:user)}
   let!(:user2){FactoryBot.create(:second_user)}
   let!(:item){FactoryBot.create(:item)}
 
-  context "2人のユーザが同じ商品を同時に5個ずつ注文した場合" do
+  context "If two users order 5 units of the same product at the same time" do
     before do
       threads = []
       threads << Thread.new do
@@ -24,7 +24,7 @@ RSpec.describe "発注機能", type: :model do
       end
       threads.each(&:join)
     end
-    it "その商品の注文数が合計10個になること" do
+    it "The total number of orders for that product must be 10." do
       expect(item.reload.total_quantity).to eq(5 + 5)
     end
   end
